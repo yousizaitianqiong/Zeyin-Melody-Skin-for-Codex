@@ -1,3 +1,7 @@
 # Studio 投稿文本属于已验收的发布资产，跨平台检出时必须保持 LF 字节。
 assets/studio-theme.css text eol=lf
 assets/theme.json text eol=lf
+
+# 这两份第三方 Inno 资源按上游 SHA-256 锁定，Git 不得改写其字节。
+installer/languages/ChineseSimplified.isl -text
+installer/languages/Inno-Setup-License.txt -text

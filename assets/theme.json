@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "id": "zeyin-melody",
+  "name": "泽音 Melody",
+  "image": "background.jpg",
+  "brandSubtitle": "Zeyin Melody Skin for Codex",
+  "tagline": "SING THROUGH THE STORM",
+  "quote": "SING THROUGH THE STORM",
+  "projectLabel": "lulu · 音悦生",
+  "statusText": "Windows 已验证",
+  "promoUrl": "https://github.com/yousizaitianqiong/Zeyin-Melody-Skin-for-Codex",
+  "appearance": "dark",
+  "art": {
+    "focusX": 0.76,
+    "focusY": 0.46,
+    "safeArea": "left",
+    "taskMode": "off"
+  },
+  "colors": {
+    "background": "#17182b",
+    "panel": "#24213a",
+    "panelAlt": "#302a49",
+    "accent": "#f17f9f",
+    "accentAlt": "#7ce2e8",
+    "secondary": "#b85a79",
+    "highlight": "#ffd4df",
+    "text": "#fff7fb",
+    "muted": "#d8c9da",
+    "line": "rgba(241, 127, 159, .30)"
+  }
+}

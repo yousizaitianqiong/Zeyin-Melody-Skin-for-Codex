@@ -1,0 +1,59 @@
+name: Windows CI
+
+on:
+  push:
+    branches:
+      - main
+      - "codex/**"
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: windows-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test-and-build:
+    name: PowerShell 5.1 回归与 Inno 构建
+    runs-on: windows-2022
+    timeout-minutes: 30
+    steps:
+      - name: 检出源码
+        uses: actions/checkout@v4
+
+      - name: 固定 Node.js 22.23.1
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.23.1
+          check-latest: false
+
+      - name: 运行 Windows 全套回归
+        shell: powershell
+        run: .\tests\run-tests.ps1
+
+      - name: 验证预装 Inno Setup 6
+        shell: powershell
+        run: |
+          $compiler = Join-Path ${env:ProgramFiles(x86)} 'Inno Setup 6\ISCC.exe'
+          if (-not (Test-Path -LiteralPath $compiler -PathType Leaf)) {
+            throw "windows-2022 未提供预期的 Inno Setup 6：$compiler"
+          }
+          $compilerInfo = Get-Item -LiteralPath $compiler
+          Write-Host "Inno Setup 编译器：$($compilerInfo.FullName)（$($compilerInfo.Length) bytes）"
+
+      - name: 构建未签名开发安装器
+        shell: powershell
+        run: .\installer\build-release.ps1 -OutputDirectory .\dist -SkipTests
+
+      - name: 上传开发构建（非 Release）
+        uses: actions/upload-artifact@v4
+        with:
+          name: ZeyinMelodySkin-0.1.0-development-installer
+          path: |
+            dist/ZeyinMelodySkin-Setup-v0.1.0.exe
+            dist/SHA256SUMS.txt
+          if-no-files-found: error
+          retention-days: 7

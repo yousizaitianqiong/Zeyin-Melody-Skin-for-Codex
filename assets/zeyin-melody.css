@@ -1,0 +1,327 @@
+/* 由已验收的 Studio theme.css 派生；仅此文件进入 renderer。 */
+html[data-zeyin-melody-skin="active"] {
+  color-scheme: dark !important;
+  --ds-bg: #17182b;
+  --ds-panel: #24213a;
+  --ds-panel-2: #302a49;
+  --ds-green: #f17f9f;
+  --ds-lime: #7ce2e8;
+  --ds-cyan: #b85a79;
+  --ds-purple: #ffd4df;
+  --ds-text: #fff7fb;
+  --ds-muted: #d8c9da;
+  --ds-line: rgba(241, 127, 159, .30);
+  --ds-bg-rgb: 23 24 43;
+  --ds-panel-rgb: 36 33 58;
+  --ds-panel-2-rgb: 48 42 73;
+  --ds-text-rgb: 255 247 251;
+  --ds-muted-rgb: 216 201 218;
+  --ds-accent-rgb: 241 127 159;
+  --ds-secondary-rgb: 184 90 121;
+  --ds-highlight-rgb: 255 212 223;
+  --ds-accent: var(--ds-green);
+  --ds-accent-soft: var(--ds-lime);
+  --ds-secondary: var(--ds-cyan);
+  --ds-highlight: var(--ds-purple);
+  --ds-on-accent: rgb(var(--ds-bg-rgb) / 1);
+  --zeyin-melody-skin-name: "泽音 Melody";
+  --zeyin-melody-skin-brand-subtitle: "Zeyin Melody Skin for Codex";
+  --zeyin-melody-skin-status: "Windows 已验证";
+  --zeyin-melody-skin-tagline: "SING THROUGH THE STORM";
+  --zeyin-melody-skin-quote: "SING THROUGH THE STORM";
+  --zeyin-melody-skin-project-prefix: "选择项目 · ";
+  --zeyin-melody-skin-project-label: "lulu · 音悦生";
+  --zeyin-melody-skin-project-icon-indent: 28px;
+  --zeyin-melody-skin-project-icon: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3E%3Cpath%20fill='%23121118'%20d='M10%2027%2016%207l14%2011c1-1%203-1%204%200L48%207l6%2020v14c0%2011-10%2019-22%2019S10%2052%2010%2041Z'/%3E%3Ccircle%20cx='24'%20cy='36'%20r='3'%20fill='%23f17f9f'/%3E%3Ccircle%20cx='40'%20cy='36'%20r='3'%20fill='%237ce2e8'/%3E%3Cpath%20fill='none'%20stroke='%23fff7fb'%20stroke-width='2'%20stroke-linecap='round'%20d='M29%2045q3%203%206%200'/%3E%3C/svg%3E");
+}
+
+html[data-zeyin-melody-skin="active"][data-zeyin-melody-shell="light"]
+  main:is(.main-surface, [data-app-shell-main-surface], [class*="_MainContentSurface_"]):has([role="main"])::after,
+html[data-zeyin-melody-skin="active"][data-zeyin-melody-shell="light"]
+  [role="main"]:has([data-testid="home-icon"]) [data-feature="game-source"]::before {
+  text-shadow: none;
+}
+
+html[data-zeyin-melody-skin="active"]
+  main:is(.main-surface, [data-app-shell-main-surface], [class*="_MainContentSurface_"]):not(:has([role="main"])) > header:is(.app-header-tint, [data-app-shell-header-edge-scroll], [class*="_Header_"])::before {
+  content: var(--zeyin-melody-skin-name) " · " var(--zeyin-melody-skin-brand-subtitle);
+  position: absolute;
+  left: 22px;
+  top: 4px;
+  z-index: 2;
+  max-width: min(42%, 360px);
+  overflow: hidden;
+  color: var(--ds-accent);
+  font: 800 11px/1.3 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  letter-spacing: .03em;
+  text-overflow: ellipsis;
+  text-shadow: 0 1px 12px rgb(var(--ds-bg-rgb) / .32);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+html[data-zeyin-melody-skin="active"]
+  main:is(.main-surface, [data-app-shell-main-surface], [class*="_MainContentSurface_"]):not(:has([role="main"])) > header:is(.app-header-tint, [data-app-shell-header-edge-scroll], [class*="_Header_"])::after {
+  content: var(--zeyin-melody-skin-status);
+  position: absolute;
+  right: 84px;
+  top: 13px;
+  z-index: 2;
+  max-width: 28%;
+  overflow: hidden;
+  color: var(--ds-muted);
+  font: 700 9px/1.2 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  letter-spacing: .08em;
+  text-overflow: ellipsis;
+  text-shadow: 0 1px 10px rgb(var(--ds-bg-rgb) / .32);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+html[data-zeyin-melody-skin="active"]
+  main:is(.main-surface, [data-app-shell-main-surface], [class*="_MainContentSurface_"]):has([role="main"]):not(:has([data-codex-composer-root][data-composer-placement="home"]))::after {
+  content: var(--zeyin-melody-skin-quote);
+  position: absolute;
+  right: 28px;
+  bottom: 72px;
+  z-index: 2;
+  pointer-events: none;
+  color: rgb(var(--ds-text-rgb) / .94);
+  font: italic 600 14px/1.2 "Segoe Print", "Comic Sans MS", cursive;
+  text-shadow:
+    0 1px 3px rgb(var(--ds-bg-rgb) / .92),
+    0 0 12px rgb(var(--ds-accent-rgb) / .42);
+  transform: rotate(-3deg);
+}
+
+html[data-zeyin-melody-skin="active"]
+  [data-codex-composer-root][data-composer-placement="home"] {
+  position: relative;
+  isolation: isolate;
+}
+
+html[data-zeyin-melody-skin="active"]
+  [data-codex-composer-root][data-composer-placement="home"] > * {
+  position: relative;
+  z-index: 1;
+}
+
+html[data-zeyin-melody-skin="active"]
+  [data-codex-composer-root][data-composer-placement="home"]::after {
+  content: var(--zeyin-melody-skin-quote);
+  position: absolute;
+  right: clamp(52px, 4vw, 64px);
+  bottom: calc(100% - 50px);
+  z-index: 3;
+  max-width: min(42vw, 520px);
+  overflow: hidden;
+  pointer-events: none;
+  color: rgb(var(--ds-text-rgb) / .94);
+  font: italic 600 14px/1.2 "Segoe Print", "Comic Sans MS", cursive;
+  text-overflow: ellipsis;
+  text-shadow:
+    0 1px 3px rgb(var(--ds-bg-rgb) / .92),
+    0 0 12px rgb(var(--ds-accent-rgb) / .42);
+  white-space: nowrap;
+  transform: rotate(-3deg);
+  transform-origin: right bottom;
+}
+
+html[data-zeyin-melody-skin="active"][data-zeyin-melody-shell="light"]
+  main:is(.main-surface, [data-app-shell-main-surface], [class*="_MainContentSurface_"]):not(:has([role="main"])) > header:is(.app-header-tint, [data-app-shell-header-edge-scroll], [class*="_Header_"])::before,
+html[data-zeyin-melody-skin="active"][data-zeyin-melody-shell="light"]
+  main:is(.main-surface, [data-app-shell-main-surface], [class*="_MainContentSurface_"]):not(:has([role="main"])) > header:is(.app-header-tint, [data-app-shell-header-edge-scroll], [class*="_Header_"])::after {
+  text-shadow: none;
+}
+
+html[data-zeyin-melody-skin="active"]
+  [role="main"]:has([data-testid="home-icon"]) [data-testid="home-icon"] {
+  display: none !important;
+}
+
+html[data-zeyin-melody-skin="active"]
+  [role="main"]:has([data-testid="home-icon"]) [data-feature="game-source"] {
+  display: block !important;
+  max-width: 100% !important;
+  color: var(--ds-text) !important;
+  font-size: clamp(19px, 1.85vw, 27px) !important;
+  line-height: 1.28 !important;
+  font-weight: 760 !important;
+  text-align: inherit !important;
+  text-shadow: none !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+
+html[data-zeyin-melody-skin="active"]
+  [role="main"]:has([data-testid="home-icon"]) [data-feature="game-source"]::before {
+  content: var(--zeyin-melody-skin-name);
+  display: block;
+  margin-bottom: 9px;
+  color: var(--ds-accent);
+  font: 800 12px/1.3 "Microsoft YaHei UI", sans-serif;
+  letter-spacing: .10em;
+  text-shadow: 0 0 14px rgb(var(--ds-accent-rgb) / .26);
+}
+
+html[data-zeyin-melody-skin="active"]
+  [role="main"]:has([data-testid="home-icon"]) [data-feature="game-source"]::after {
+  content: var(--zeyin-melody-skin-tagline);
+  display: block;
+  margin-top: 13px;
+  color: rgb(var(--ds-text-rgb) / .76);
+  font-size: 13px;
+  line-height: 1.5;
+  font-weight: 500;
+}
+
+html[data-zeyin-melody-skin="active"]
+  [role="main"]:has([data-testid="home-icon"]) [data-feature="game-source"] button {
+  margin: 0 5px;
+  padding: 2px 9px 3px;
+  border: 1px solid rgb(var(--ds-accent-rgb) / .36);
+  border-radius: 999px;
+  background: rgb(var(--ds-accent-rgb) / .10);
+  color: var(--ds-accent) !important;
+  text-decoration-color: rgb(var(--ds-accent-rgb) / .56) !important;
+  text-underline-offset: 5px;
+}
+
+html[data-zeyin-melody-skin="active"]
+  [role="main"]:has([data-testid="home-icon"]) [data-feature="game-source"] button::before {
+  content: var(--zeyin-melody-skin-project-prefix);
+  font-size: .46em;
+  font-weight: 700;
+  vertical-align: middle;
+  opacity: .86;
+}
+
+html[data-zeyin-melody-skin="active"]
+  [role="main"]:has([data-testid="home-icon"]):not(:has([data-codex-composer-root]))
+  div:has(> .horizontal-scroll-fade-mask .group\/project-selector) {
+  position: relative;
+  padding-top: 28px !important;
+  border: 1px solid rgb(var(--ds-muted-rgb) / .16);
+  border-bottom: 0;
+  background: rgb(var(--ds-panel-rgb) / .92) !important;
+}
+
+html[data-zeyin-melody-skin="active"]
+  [role="main"]:has([data-testid="home-icon"]):not(:has([data-codex-composer-root]))
+  div:has(> .horizontal-scroll-fade-mask .group\/project-selector)::before {
+  content: var(--zeyin-melody-skin-project-label);
+  position: absolute;
+  left: 13px;
+  top: 6px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding-left: var(--zeyin-melody-skin-project-icon-indent);
+  color: var(--ds-muted);
+  font-size: 12px;
+  font-weight: 720;
+  line-height: 24px;
+  white-space: nowrap;
+  background-image: var(--zeyin-melody-skin-project-icon);
+  background-position: left center;
+  background-repeat: no-repeat;
+  background-size: 24px 24px;
+}
+
+html[data-zeyin-melody-skin="active"]
+  [role="main"]:has([data-testid="home-icon"]) .group\/project-selector > button {
+  border-color: rgb(var(--ds-accent-rgb) / .22) !important;
+  background: rgb(var(--ds-accent-rgb) / .08) !important;
+  color: var(--ds-text) !important;
+  box-shadow: 0 3px 12px rgb(var(--ds-bg-rgb) / .12) !important;
+}
+
+@media (max-width: 1120px) {
+  html[data-zeyin-melody-skin="active"]
+    main:is(.main-surface, [data-app-shell-main-surface], [class*="_MainContentSurface_"]):has([role="main"]):not(:has([data-codex-composer-root][data-composer-placement="home"]))::after,
+  html[data-zeyin-melody-skin="active"]
+    [data-codex-composer-root][data-composer-placement="home"]::after {
+    content: none;
+  }
+}
+
+@media (max-height: 760px) {
+  html[data-zeyin-melody-skin="active"]
+    main:is(.main-surface, [data-app-shell-main-surface], [class*="_MainContentSurface_"]):has([role="main"]):not(:has([data-codex-composer-root][data-composer-placement="home"]))::after,
+  html[data-zeyin-melody-skin="active"]
+    [data-codex-composer-root][data-composer-placement="home"]::after {
+    content: none;
+  }
+}
+
+@media (max-width: 900px) {
+  html[data-zeyin-melody-skin="active"]
+    [role="main"]:has([data-testid="home-icon"]) [data-feature="game-source"] {
+    font-size: 18px !important;
+  }
+  html[data-zeyin-melody-skin="active"]
+    [role="main"]:has([data-testid="home-icon"]) [data-feature="game-source"]::before {
+    margin-bottom: 7px;
+    font-size: 10px;
+  }
+  html[data-zeyin-melody-skin="active"]
+    [role="main"]:has([data-testid="home-icon"]) [data-feature="game-source"]::after {
+    margin-top: 9px;
+    font-size: 11px;
+  }
+}
+
+html[data-zeyin-melody-skin="active"] [data-ds-part="root"] {
+  color: var(--ds-theme-color-text);
+}
+
+html[data-zeyin-melody-skin="active"] [data-ds-part="sidebar"] {
+  background-color: rgba(23, 24, 43, .76);
+  border-right-color: rgba(241, 127, 159, .24);
+}
+
+html[data-zeyin-melody-skin="active"] [data-ds-part="header"] {
+  background-color: transparent;
+  border-bottom-color: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+html[data-zeyin-melody-skin="active"] [data-ds-part="project-list"] {
+  border-color: rgba(241, 127, 159, .28);
+  border-radius: 14px;
+  box-shadow: 0 0 16px rgba(241, 127, 159, .10);
+  transition-duration: 160ms;
+  transition-property: border-color, box-shadow;
+}
+
+html[data-zeyin-melody-skin="active"] [data-ds-part="project-list"]:hover {
+  border-color: rgba(255, 212, 223, .42);
+  box-shadow: 0 0 18px rgba(241, 127, 159, .16);
+}
+
+html[data-zeyin-melody-skin="active"] [data-ds-part="message"] {
+  border-color: rgba(255, 212, 223, .16);
+  border-radius: 18px;
+}
+
+html[data-zeyin-melody-skin="active"] [data-ds-part="composer"] {
+  background-color: rgba(110, 93, 118, .96);
+  border-color: rgba(255, 212, 223, .52);
+  border-radius: 20px;
+  box-shadow: 0 0 18px rgba(241, 127, 159, .14);
+  transition-duration: 160ms;
+  transition-property: border-color, box-shadow;
+}
+
+html[data-zeyin-melody-skin="active"] [data-ds-part="composer"]:hover {
+  border-color: rgba(255, 212, 223, .44);
+  box-shadow: 0 0 18px rgba(241, 127, 159, .14);
+}
+
+html[data-zeyin-melody-skin="active"] [data-ds-part="dialog"] {
+  background-color: rgba(23, 24, 43, .90);
+  border-color: rgba(124, 226, 232, .26);
+  border-radius: 18px;
+}

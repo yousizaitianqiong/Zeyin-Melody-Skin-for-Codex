@@ -35,6 +35,19 @@ html[data-zeyin-melody-skin="active"] {
   --zeyin-melody-skin-project-icon: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3E%3Cpath%20fill='%23121118'%20d='M10%2027%2016%207l14%2011c1-1%203-1%204%200L48%207l6%2020v14c0%2011-10%2019-22%2019S10%2052%2010%2041Z'/%3E%3Ccircle%20cx='24'%20cy='36'%20r='3'%20fill='%23f17f9f'/%3E%3Ccircle%20cx='40'%20cy='36'%20r='3'%20fill='%237ce2e8'/%3E%3Cpath%20fill='none'%20stroke='%23fff7fb'%20stroke-width='2'%20stroke-linecap='round'%20d='M29%2045q3%203%206%200'/%3E%3C/svg%3E");
 }
 
+html[data-zeyin-melody-skin="active"]
+  [role="menubar"] > button[role="menuitem"][id^="application-menu-trigger-"] {
+  color: rgb(var(--ds-text-rgb) / .90) !important;
+  font-weight: 500 !important;
+  text-shadow: 0 1px 2px rgb(var(--ds-bg-rgb) / .88);
+}
+
+html[data-zeyin-melody-skin="active"]
+  [role="menubar"] > button[role="menuitem"][id^="application-menu-trigger-"]:is(:hover, :focus-visible, [aria-expanded="true"]) {
+  color: var(--ds-text) !important;
+  background-color: rgb(var(--ds-text-rgb) / .08) !important;
+}
+
 html[data-zeyin-melody-skin="active"][data-zeyin-melody-shell="light"]
   main:is(.main-surface, [data-app-shell-main-surface], [class*="_MainContentSurface_"]):has([role="main"])::after,
 html[data-zeyin-melody-skin="active"][data-zeyin-melody-shell="light"]

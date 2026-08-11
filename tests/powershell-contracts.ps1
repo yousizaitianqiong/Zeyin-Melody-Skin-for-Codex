@@ -40,6 +40,38 @@ foreach ($file in $distributedPowerShell) {
   }
 }
 
+# 首次或重复打开托盘菜单时 Items 都可能为空；直接从真实脚本 AST
+# 加载菜单项函数，防止 Mandatory 集合绑定再次拒绝空集合。
+$trayScriptPath = Join-Path $repositoryRoot 'scripts\tray-zeyin-melody.ps1'
+$trayTokens = $null
+$trayParseErrors = $null
+$trayAst = [System.Management.Automation.Language.Parser]::ParseFile(
+  $trayScriptPath, [ref]$trayTokens, [ref]$trayParseErrors)
+$trayItemFunction = $trayAst.Find({
+    param($node)
+    $node -is [System.Management.Automation.Language.FunctionDefinitionAst] -and
+      $node.Name -ceq 'Add-ZeyinMelodySkinTrayItem'
+  }, $true)
+Assert-ZeyinTest -Condition ($null -ne $trayItemFunction) `
+  -Message '未找到托盘菜单项函数。'
+. ([scriptblock]::Create($trayItemFunction.Extent.Text))
+Add-Type -AssemblyName System.Windows.Forms
+$trayMenuFixture = [System.Windows.Forms.ContextMenuStrip]::new()
+try {
+  $null = Add-ZeyinMelodySkinTrayItem -Items $trayMenuFixture.Items `
+    -Text '状态：测试' -Action $null -Enabled $false
+  Assert-ZeyinTest -Condition ($trayMenuFixture.Items.Count -eq 1) `
+    -Message '首次向空托盘菜单集合添加项目失败。'
+  $trayMenuFixture.Items.Clear()
+  $null = Add-ZeyinMelodySkinTrayItem -Items $trayMenuFixture.Items `
+    -Text '状态：再次测试' -Action $null -Enabled $false
+  Assert-ZeyinTest -Condition ($trayMenuFixture.Items.Count -eq 1) `
+    -Message '清空后再次向托盘菜单集合添加项目失败。'
+} finally {
+  $trayMenuFixture.Dispose()
+  Remove-Item -LiteralPath Function:\Add-ZeyinMelodySkinTrayItem -Force -ErrorAction SilentlyContinue
+}
+
 . (Join-Path $repositoryRoot 'scripts\legacy-preflight.ps1')
 . (Join-Path $repositoryRoot 'scripts\config-utf8.ps1')
 . (Join-Path $repositoryRoot 'scripts\fixed-theme-windows.ps1')

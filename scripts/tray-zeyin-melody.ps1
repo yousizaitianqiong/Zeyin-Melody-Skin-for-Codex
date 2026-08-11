@@ -75,7 +75,8 @@ try {
 
   function Add-ZeyinMelodySkinTrayItem {
     param(
-      [Parameter(Mandatory = $true)][System.Windows.Forms.ToolStripItemCollection]$Items,
+      [Parameter(Mandatory = $true)][AllowEmptyCollection()]
+      [System.Windows.Forms.ToolStripItemCollection]$Items,
       [Parameter(Mandatory = $true)][string]$Text,
       [AllowNull()][scriptblock]$Action,
       [bool]$Enabled = $true
@@ -175,7 +176,15 @@ try {
     }
   }
 
-  $menu.add_Opening({ Rebuild-ZeyinMelodySkinTrayMenu })
+  $menu.add_Opening({
+    param($sender, $eventArgs)
+    try {
+      Rebuild-ZeyinMelodySkinTrayMenu
+    } catch {
+      $eventArgs.Cancel = $true
+      Show-ZeyinMelodySkinTrayError -Message "托盘菜单加载失败：$($_.Exception.Message)"
+    }
+  })
   $notify.add_DoubleClick({
     try { Start-ZeyinMelodySkinApply } catch { Show-ZeyinMelodySkinTrayError -Message $_.Exception.Message }
   })

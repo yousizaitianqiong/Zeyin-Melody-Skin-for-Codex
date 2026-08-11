@@ -68,6 +68,23 @@ test("可信覆盖层每条 selector 都以产品根属性开头", async () => {
   const externalStyleCss = 'html[data-zeyin-melody-skin="active"] { --icon: url("data:image/svg+xml,' +
     encodeURIComponent(externalStyleSvg) + '"); }';
   assert.throws(() => assertScopedOverlay(externalStyleCss), /inline SVG is not self-contained/);
+
+  const menuRule = overlay.match(
+    /html\[data-zeyin-melody-skin="active"\]\s*\[role="menubar"\]\s*>\s*button\[role="menuitem"\]\[id\^="application-menu-trigger-"\]\s*\{([\s\S]*?)\}/,
+  )?.[1] ?? "";
+  assert.match(menuRule, /color:\s*rgb\(var\(--ds-text-rgb\) \/ \.90\) !important;/,
+    "Windows 顶部菜单常态文字必须保持高对比度。");
+  assert.match(menuRule, /font-weight:\s*500 !important;/,
+    "Windows 顶部菜单必须保持可读字重。");
+  assert.match(menuRule, /text-shadow:\s*0 1px 2px rgb\(var\(--ds-bg-rgb\) \/ \.88\);/,
+    "Windows 顶部菜单必须带轻微暗色文字阴影。");
+  assert.match(
+    overlay,
+    /button\[role="menuitem"\]\[id\^="application-menu-trigger-"\]:is\(:hover, :focus-visible, \[aria-expanded="true"\]\)[\s\S]*?color:\s*var\(--ds-text\) !important;/,
+    "Windows 顶部菜单交互态必须使用完整主题文字色。",
+  );
+  assert.doesNotMatch(overlay, /_ApplicationMenuTopBar_/,
+    "可信覆盖层不得依赖易变的顶部菜单 CSS Module 类名。");
 });
 
 test("通用结构层不携带泽音文案、图标或固定粉紫视觉", async () => {
@@ -131,6 +148,10 @@ test("独立 Windows 安装器身份与快捷方式精确锁定", async () => {
   assert.equal((install.match(/Join-Path \$folder 'Zeyin Melody Skin for Codex\.lnk'/g) || []).length, 1);
   assert.equal((install.match(/Join-Path \$folder '恢复 Codex 官方外观\.lnk'/g) || []).length, 1);
   assert.doesNotMatch(install + restore, /Zeyin Melody Skin for Codex - (?:托盘|恢复官方外观)\.lnk/);
+  const operationRelease = install.lastIndexOf("Exit-ZeyinMelodySkinOperationLock -Mutex $operationLock");
+  const trayLaunch = install.lastIndexOf("Start-Process -FilePath $trayLaunch.FilePath");
+  assert.ok(operationRelease >= 0 && trayLaunch > operationRelease,
+    "源码安装必须先释放操作互斥，再启动会自行验证负载的托盘。");
   assert.deepEqual([...icon.subarray(0, 4)], [0, 0, 1, 0]);
 });
 
@@ -160,6 +181,16 @@ test("固定主题产品不存在协议、社区导入或多主题入口", async
     "验证当前会话", "检查更新…", "恢复官方外观", "完全卸载…", "退出托盘",
   ]);
   assert.doesNotMatch(tray, /更换背景|保存主题|已保存主题|导入|Gallery/iu);
+  assert.match(
+    tray,
+    /\[Parameter\(Mandatory = \$true\)\]\[AllowEmptyCollection\(\)\]\s*\[System\.Windows\.Forms\.ToolStripItemCollection\]\$Items/,
+    "首次打开托盘菜单时必须允许传入空菜单项集合。",
+  );
+  assert.match(
+    tray,
+    /\$menu\.add_Opening\(\{[\s\S]*?param\(\$sender, \$eventArgs\)[\s\S]*?try\s*\{[\s\S]*?Rebuild-ZeyinMelodySkinTrayMenu[\s\S]*?\}\s*catch\s*\{[\s\S]*?\$eventArgs\.Cancel = \$true[\s\S]*?Show-ZeyinMelodySkinTrayError/,
+    "托盘 Opening 事件必须拦截重建异常，避免 JIT 对话框。",
+  );
   const updater = await read("scripts/check-update.ps1");
   assert.match(updater, /yousizaitianqiong\/Zeyin-Melody-Skin-for-Codex/);
   assert.doesNotMatch(updater, /Fei-Away|zeyinmelody\.cc/iu);

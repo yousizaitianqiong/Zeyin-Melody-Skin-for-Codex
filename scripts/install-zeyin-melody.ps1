@@ -15,6 +15,7 @@ Assert-ZeyinMelodySkinLegacyDreamSkinAbsent
 . (Join-Path $PSScriptRoot 'common-windows.ps1')
 . (Join-Path $PSScriptRoot 'fixed-theme-windows.ps1')
 
+$trayLaunch = $null
 $operationLock = Enter-ZeyinMelodySkinOperationLock
 try {
   $os = [Environment]::OSVersion.Version
@@ -81,9 +82,10 @@ try {
       if (Test-Path -LiteralPath $iconPath) { $restore.IconLocation = $iconPath }
       $restore.Save()
     }
-    Start-Process -FilePath $powershell -ArgumentList `
-      "-NoProfile -STA -WindowStyle Hidden -ExecutionPolicy RemoteSigned -File `"$($engine.Tray)`"$portArgument" `
-      -WindowStyle Hidden | Out-Null
+    $trayLaunch = [pscustomobject]@{
+      FilePath = $powershell
+      ArgumentList = "-NoProfile -STA -WindowStyle Hidden -ExecutionPolicy RemoteSigned -File `"$($engine.Tray)`"$portArgument"
+    }
   }
 
   if ($NoShortcuts) {
@@ -93,4 +95,11 @@ try {
   }
 } finally {
   Exit-ZeyinMelodySkinOperationLock -Mutex $operationLock
+}
+
+# 托盘会在相同的操作互斥下验证负载；必须等安装释放互斥后再启动，
+# 否则较快的机器可能让托盘首次初始化失败并直接退出。
+if ($null -ne $trayLaunch) {
+  Start-Process -FilePath $trayLaunch.FilePath -ArgumentList $trayLaunch.ArgumentList `
+    -WindowStyle Hidden | Out-Null
 }

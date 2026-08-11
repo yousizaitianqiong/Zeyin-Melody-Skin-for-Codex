@@ -1,0 +1,7 @@
+/dist/
+/output/
+/artifacts/
+*.log
+*.tmp
+.DS_Store
+Thumbs.db

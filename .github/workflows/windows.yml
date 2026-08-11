@@ -39,10 +39,10 @@ jobs:
         run: |
           $compiler = Join-Path ${env:ProgramFiles(x86)} 'Inno Setup 6\ISCC.exe'
           if (-not (Test-Path -LiteralPath $compiler -PathType Leaf)) {
-            throw "windows-2022 未提供预期的 Inno Setup 6：$compiler"
+            throw "Expected Inno Setup 6 was not found on windows-2022: $compiler"
           }
           $compilerInfo = Get-Item -LiteralPath $compiler
-          Write-Host "Inno Setup 编译器：$($compilerInfo.FullName)（$($compilerInfo.Length) bytes）"
+          Write-Host "Inno Setup compiler: $($compilerInfo.FullName) ($($compilerInfo.Length) bytes)"
 
       - name: 构建未签名开发安装器
         shell: powershell

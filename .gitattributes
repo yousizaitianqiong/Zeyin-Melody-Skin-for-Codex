@@ -1,0 +1,3 @@
+# Studio 投稿文本属于已验收的发布资产，跨平台检出时必须保持 LF 字节。
+assets/studio-theme.css text eol=lf
+assets/theme.json text eol=lf

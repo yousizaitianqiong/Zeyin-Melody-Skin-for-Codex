@@ -1,4 +1,4 @@
-# Zeyin Melody Skin for Codex 0.1.0
+# Zeyin Melody Skin for Codex 0.1.1
 
 ## 已完成
 
@@ -34,4 +34,5 @@
 ## Lulu 托盘图标验收
 
 - [x] 粉白圆角 Panel ICO：7 层 16/20/24/32/48/64/128px，透明角，SHA-256 为 `9B567178831161A6B2C6E80F68568FE5BE8AB493EEA1D90CF3647D573699FFC4`。
-- [ ] 下一补丁版本再更新安装器 Release 资产；不改写 `v0.1.0`。
+- [x] 构建并核验 `v0.1.1` 安装器与 `SHA256SUMS.txt`；不改写 `v0.1.0`。
+- [ ] 合并 `codex/v0.1.1` 并创建 `v0.1.1` Release。

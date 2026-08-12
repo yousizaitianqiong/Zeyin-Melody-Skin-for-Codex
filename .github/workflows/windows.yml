@@ -51,9 +51,9 @@ jobs:
       - name: 上传开发构建（非 Release）
         uses: actions/upload-artifact@v4
         with:
-          name: ZeyinMelodySkin-0.1.0-development-installer
+          name: ZeyinMelodySkin-0.1.1-development-installer
           path: |
-            dist/ZeyinMelodySkin-Setup-v0.1.0.exe
+            dist/ZeyinMelodySkin-Setup-v0.1.1.exe
             dist/SHA256SUMS.txt
           if-no-files-found: error
           retention-days: 7

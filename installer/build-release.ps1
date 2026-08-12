@@ -237,7 +237,7 @@ $version = (Read-ZeyinMelodyReleaseText -Path $versionPath).Trim()
 if ($version -cnotmatch '^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$') {
   throw "VERSION 必须是三段语义版本：$version"
 }
-if ($version -cne '0.1.0') { throw "本发布分支只允许构建 0.1.0，实际为 $version。" }
+if ($version -cne '0.1.1') { throw "本发布分支只允许构建 0.1.1，实际为 $version。" }
 
 $manifest = (Read-ZeyinMelodyReleaseText -Path $manifestPath) | ConvertFrom-Json
 Assert-ZeyinMelodyNodeManifest -Manifest $manifest
@@ -393,7 +393,8 @@ try {
     [System.IO.File]::ReadAllBytes($checksumPath))
   $checksumMatch = [regex]::Match(
     $checksumText,
-    '\A(?<hash>[A-Fa-f0-9]{64})  (?<name>ZeyinMelodySkin-Setup-v0\.1\.0\.exe)\n\z'
+    ('\A(?<hash>[A-Fa-f0-9]{64})  (?<name>ZeyinMelodySkin-Setup-v' +
+      [regex]::Escape($version) + '\.exe)\n\z')
   )
   if (-not $checksumMatch.Success -or
     $checksumMatch.Groups['hash'].Value.ToUpperInvariant() -cne $artifactHash -or

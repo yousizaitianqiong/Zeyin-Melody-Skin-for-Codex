@@ -1,10 +1,10 @@
 # Zeyin Melody Skin for Codex
 
-面向 Windows 10/11 x64 的 Codex 固定主题客户端。当前正式版本为 `0.1.0`，可从 [GitHub Release](https://github.com/yousizaitianqiong/Zeyin-Melody-Skin-for-Codex/releases/tag/v0.1.0) 获取。
+面向 Windows 10/11 x64 的 Codex 固定主题客户端。当前正式版本为 `0.1.1`，可从 [GitHub Release](https://github.com/yousizaitianqiong/Zeyin-Melody-Skin-for-Codex/releases/tag/v0.1.1) 获取。
 
 本仓库具有全新、独立的 Git 历史，是 Windows-only、非 fork 项目。它不会修改 Codex 的 `app.asar`、签名、ACL 或受保护安装目录，而是连接经严格验证的本机 loopback CDP 会话。
 
-> `codex/v0.1.0` 分支和 CI artifact 是开发构建；正式安装器只认上述仓库 Release，不要从第三方下载站获取。
+> `codex/v0.1.1` 分支和 CI artifact 是开发构建；正式安装器只认上述仓库 Release，不要从第三方下载站获取。
 
 ## 产品边界
 
@@ -16,10 +16,10 @@
 
 ## 安装与校验
 
-正式安装器文件名为 `ZeyinMelodySkin-Setup-v0.1.0.exe`。项目暂未对安装器进行代码签名，因此 Microsoft Defender SmartScreen 可能显示“未知发布者”。不要关闭 SmartScreen；应确认下载地址属于本仓库 Release，并先核对 Release 同时公布的 SHA-256：
+正式安装器文件名为 `ZeyinMelodySkin-Setup-v0.1.1.exe`。项目暂未对安装器进行代码签名，因此 Microsoft Defender SmartScreen 可能显示“未知发布者”。不要关闭 SmartScreen；应确认下载地址属于本仓库 Release，并先核对 Release 同时公布的 SHA-256：
 
 ```powershell
-Get-FileHash .\ZeyinMelodySkin-Setup-v0.1.0.exe -Algorithm SHA256
+Get-FileHash .\ZeyinMelodySkin-Setup-v0.1.1.exe -Algorithm SHA256
 ```
 
 若检测到旧版 Codex Dream Skin 的 AppId、安装目录、受管 engine、配置备份或有效 live injector，安装会在写入新产品状态之前退出。请先在旧版执行 **Restore（恢复官方外观）**，再卸载旧版，最后重试。只有旧版 `themes`/`images` 普通目录残留时允许继续；安装器不会自动卸载旧版。

@@ -262,7 +262,7 @@ test("Windows 安全核心保持 loopback、身份验证、签名 Node 与原子
     "function Write-ZeyinMelodyChecksumAtomically", "SHA256SUMS.txt",
     "[System.IO.File]::Replace", "[System.IO.File]::Move",
     "[System.IO.File]::ReadAllBytes($checksumPath)",
-    "ZeyinMelodySkin-Setup-v0\\.1\\.0\\.exe",
+    "[regex]::Escape($version)",
     "Get-FileHash -LiteralPath $artifactPath -Algorithm SHA256",
   ]) assert.ok(builder.includes(required), `发布校验清单缺少：${required}`);
   for (const required of [

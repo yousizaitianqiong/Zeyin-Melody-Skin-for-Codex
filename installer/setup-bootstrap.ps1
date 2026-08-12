@@ -78,7 +78,7 @@ function Assert-ZeyinMelodyBootstrapPayload {
     }
   }
   $version = ([System.IO.File]::ReadAllText((Join-Path $payloadRoot 'VERSION'))).Trim()
-  if ($version -cne '0.1.0') { throw "安装器负载版本无效：$version" }
+  if ($version -cne '0.1.1') { throw "安装器负载版本无效：$version" }
 }
 
 function Wait-ZeyinMelodyCodexClosedForSetup {
@@ -151,7 +151,7 @@ try {
     $installedVersion = if (Test-Path -LiteralPath $engine.Version -PathType Leaf) {
       ([System.IO.File]::ReadAllText($engine.Version)).Trim()
     } else { '' }
-    if ($installedVersion -cne '0.1.0') { throw '受管运行时未原子提交 0.1.0。' }
+    if ($installedVersion -cne '0.1.1') { throw '受管运行时未原子提交 0.1.1。' }
     $null = Assert-ZeyinMelodySkinFixedPayload -EngineRoot $engine.Root
     exit 0
   }

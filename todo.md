@@ -22,8 +22,15 @@
 
 ## 发布后收尾
 
-- [ ] 在关闭当前 Codex 后，于隔离的 Windows 10 x64 与 Windows 11 x64 环境执行首次正式安装、暂停/恢复、升级、旧版冲突和完整卸载实机验收。
+- [x] 在当前 Windows 11、Codex 26.803.10989.0 活动会话完成严格验证、暂停清理、恢复、单 watcher 与更新检查；恢复后验证退出码为 0，运行中的 0.1.0 可正确发现 0.1.1。
+- [ ] 在关闭当前 Codex 后，于隔离的 Windows 10 x64 与 Windows 11 x64 环境执行首次正式安装、0.1.0 → 0.1.1 升级、旧版冲突和完整卸载实机验收。
 - [x] 将发布后的顶部菜单对比度、安装托盘互斥竞态和空菜单异常拦截修复并入 PR #2；未改写已发布的 `v0.1.0` 标签。
+
+## Studio 投稿
+
+- [x] 复验投稿目录严格只含 `background.jpg`、`theme.json` 与非空 `theme.css`；背景为 2560×1440 sRGB JPEG，Safe CSS 为 9 条规则、27 个声明且验证通过。
+- [x] 复验 Studio 三件套与独立产品内置资源逐字节一致，并通过上游三文件主题包验证器。
+- [ ] 由用户登录在线 Studio，填写“Windows 已验证”“CC BY-NC 4.0”“AI 辅助横向延展”后提交人工审核。
 
 ## 明确不做
 
@@ -35,4 +42,4 @@
 
 - [x] 粉白圆角 Panel ICO：7 层 16/20/24/32/48/64/128px，透明角，SHA-256 为 `9B567178831161A6B2C6E80F68568FE5BE8AB493EEA1D90CF3647D573699FFC4`。
 - [x] 构建并核验 `v0.1.1` 安装器与 `SHA256SUMS.txt`；不改写 `v0.1.0`。
-- [ ] 合并 `codex/v0.1.1` 并创建 `v0.1.1` Release。
+- [x] 合并 PR #5 并创建 [v0.1.1 Release](https://github.com/yousizaitianqiong/Zeyin-Melody-Skin-for-Codex/releases/tag/v0.1.1)；安装器 SHA-256 为 `78392C2C76D299E0C3E5D76168806801BF4CE0A6CEA41CF5320E8E82F9F0A4CB`。

@@ -173,7 +173,7 @@ test("独立 Windows 安装器身份与快捷方式精确锁定", async () => {
   assert.ok(operationRelease >= 0 && trayLaunch > operationRelease,
     "源码安装必须先释放操作互斥，再启动会自行验证负载的托盘。");
   assert.deepEqual([...icon.subarray(0, 4)], [0, 0, 1, 0]);
-  assert.equal(await hash("assets/zeyin-melody-skin.ico"), "1940C2DA11194C7265152C273679FD03C2699873ED22FC5E5CC21F598F5FB2F7");
+  assert.equal(await hash("assets/zeyin-melody-skin.ico"), "9B567178831161A6B2C6E80F68568FE5BE8AB493EEA1D90CF3647D573699FFC4");
   assert.deepEqual(readIcoDirectory(icon), {
     count: 7,
     sizes: ["16x16", "20x20", "24x24", "32x32", "48x48", "64x64", "128x128"],

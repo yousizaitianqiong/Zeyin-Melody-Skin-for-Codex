@@ -13,6 +13,20 @@ const read = (relative) => fs.readFile(path.join(root, relative), "utf8");
 const bytes = (relative) => fs.readFile(path.join(root, relative));
 const hash = async (relative) => createHash("sha256").update(await bytes(relative)).digest("hex").toUpperCase();
 
+const readIcoDirectory = (buffer) => {
+  assert.equal(buffer.readUInt16LE(0), 0, "ICO 保留字段必须为 0");
+  assert.equal(buffer.readUInt16LE(2), 1, "ICO 类型必须为图标");
+  const count = buffer.readUInt16LE(4);
+  const sizes = [];
+  for (let index = 0; index < count; index += 1) {
+    const offset = 6 + index * 16;
+    const width = buffer[offset] || 256;
+    const height = buffer[offset + 1] || 256;
+    sizes.push(`${width}x${height}`);
+  }
+  return { count, sizes };
+};
+
 async function readTree(relativeRoots) {
   const entries = [];
   const visit = async (relative) => {
@@ -153,6 +167,11 @@ test("独立 Windows 安装器身份与快捷方式精确锁定", async () => {
   assert.ok(operationRelease >= 0 && trayLaunch > operationRelease,
     "源码安装必须先释放操作互斥，再启动会自行验证负载的托盘。");
   assert.deepEqual([...icon.subarray(0, 4)], [0, 0, 1, 0]);
+  assert.equal(await hash("assets/zeyin-melody-skin.ico"), "9B567178831161A6B2C6E80F68568FE5BE8AB493EEA1D90CF3647D573699FFC4");
+  assert.deepEqual(readIcoDirectory(icon), {
+    count: 7,
+    sizes: ["16x16", "20x20", "24x24", "32x32", "48x48", "64x64", "128x128"],
+  });
 });
 
 test("固定主题产品不存在协议、社区导入或多主题入口", async () => {

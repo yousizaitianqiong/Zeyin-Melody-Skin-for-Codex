@@ -12,6 +12,19 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const read = (relative) => fs.readFile(path.join(root, relative), "utf8");
 const bytes = (relative) => fs.readFile(path.join(root, relative));
 const hash = async (relative) => createHash("sha256").update(await bytes(relative)).digest("hex").toUpperCase();
+const readIcoDirectory = (buffer) => {
+  assert.equal(buffer.readUInt16LE(0), 0, "ICO 保留字段必须为 0");
+  assert.equal(buffer.readUInt16LE(2), 1, "ICO 类型必须为图标");
+  const count = buffer.readUInt16LE(4);
+  const sizes = [];
+  for (let index = 0; index < count; index += 1) {
+    const offset = 6 + index * 16;
+    const width = buffer[offset] || 256;
+    const height = buffer[offset + 1] || 256;
+    sizes.push(`${width}x${height}`);
+  }
+  return { count, sizes };
+};
 
 async function readTree(relativeRoots) {
   const entries = [];
@@ -69,20 +82,27 @@ test("可信覆盖层每条 selector 都以产品根属性开头", async () => {
     encodeURIComponent(externalStyleSvg) + '"); }';
   assert.throws(() => assertScopedOverlay(externalStyleCss), /inline SVG is not self-contained/);
 
+  const menuPlateRule = overlay.match(
+    /html\[data-zeyin-melody-skin="active"\]\s+div:has\(>\s*\[role="menubar"\]\)\s*\{([\s\S]*?)\}/,
+  )?.[1] ?? "";
+  assert.match(menuPlateRule, /background-color:\s*#24213a !important;/);
+  assert.match(menuPlateRule, /border-bottom:\s*1px solid rgb\(var\(--ds-accent-rgb\) \/ \.28\) !important;/);
   const menuRule = overlay.match(
     /html\[data-zeyin-melody-skin="active"\]\s*\[role="menubar"\]\s*>\s*button\[role="menuitem"\]\[id\^="application-menu-trigger-"\]\s*\{([\s\S]*?)\}/,
   )?.[1] ?? "";
-  assert.match(menuRule, /color:\s*rgb\(var\(--ds-text-rgb\) \/ \.90\) !important;/,
+  assert.match(menuRule, /color:\s*var\(--ds-text\) !important;/,
     "Windows 顶部菜单常态文字必须保持高对比度。");
   assert.match(menuRule, /font-weight:\s*500 !important;/,
     "Windows 顶部菜单必须保持可读字重。");
-  assert.match(menuRule, /text-shadow:\s*0 1px 2px rgb\(var\(--ds-bg-rgb\) \/ \.88\);/,
+  assert.match(menuRule, /opacity:\s*1 !important;/);
+  assert.match(menuRule, /text-shadow:\s*none !important;/,
     "Windows 顶部菜单必须带轻微暗色文字阴影。");
   assert.match(
     overlay,
-    /button\[role="menuitem"\]\[id\^="application-menu-trigger-"\]:is\(:hover, :focus-visible, \[aria-expanded="true"\]\)[\s\S]*?color:\s*var\(--ds-text\) !important;/,
+    /button\[role="menuitem"\]\[id\^="application-menu-trigger-"\]:is\(:hover, :focus-visible, \[aria-expanded="true"\]\)[\s\S]*?color:\s*var\(--ds-highlight\) !important;/,
     "Windows 顶部菜单交互态必须使用完整主题文字色。",
   );
+  assert.match(overlay, /button\[role="menuitem"\]\[id\^="application-menu-trigger-"\]:focus-visible[\s\S]*?outline:\s*2px solid var\(--ds-lime\) !important;/);
   assert.doesNotMatch(overlay, /_ApplicationMenuTopBar_/,
     "可信覆盖层不得依赖易变的顶部菜单 CSS Module 类名。");
 });
@@ -153,6 +173,11 @@ test("独立 Windows 安装器身份与快捷方式精确锁定", async () => {
   assert.ok(operationRelease >= 0 && trayLaunch > operationRelease,
     "源码安装必须先释放操作互斥，再启动会自行验证负载的托盘。");
   assert.deepEqual([...icon.subarray(0, 4)], [0, 0, 1, 0]);
+  assert.equal(await hash("assets/zeyin-melody-skin.ico"), "1940C2DA11194C7265152C273679FD03C2699873ED22FC5E5CC21F598F5FB2F7");
+  assert.deepEqual(readIcoDirectory(icon), {
+    count: 7,
+    sizes: ["16x16", "20x20", "24x24", "32x32", "48x48", "64x64", "128x128"],
+  });
 });
 
 test("固定主题产品不存在协议、社区导入或多主题入口", async () => {
